@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  </head>
+  <style>
+      body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    height: 100vh;
+    background-color: #f4f4f4;
+}
+
+.form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 3px solid #8B4513; /* brown border */
+    padding: 20px 10px;
+    background-color: white;
+    border-radius: 10px;
+    width: 45%;
+}
+
+.form-container label {
+    margin: 10px 0;
+    font-size: 1rem;
+}
+
+.form-container input,
+.form-container select,
+.form-container button {
+    display: block; /* Make each element take up a new line */
+    margin-bottom: 15px;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container button {
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+  </style>
+
+  <body>
+<div class = "form-container">
+  <h1>Add Author Detail</h1>
+  <form action="/add_author" method="POST">
+  <label for="name">Author Name:</label> 
+  <input type="text" id="name" name="name" required><br><br>
+  
+  <label for="birthdate">Birthdate:</label> 
+  <input type="date" id="birthdate" name="birthdate" required><br><br> 
+  <label for="date_of_death">Date of Death:</label> 
+  <input type="date" id="date_of_death" name="date_of_death"><br><br>
+  <button type="submit">Add Authhor</button>
+  </form>
+</div>
+  </body>
+
+</html>

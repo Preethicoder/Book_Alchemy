@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  </head>
+  <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .book-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        .book-card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            width: 200px;
+            text-align: center;
+        }
+        .book-card img {
+            width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+    button {
+       border-radius : 10px;
+       margin:6px;
+       padding : 4px 5px;
+       cursor:pointer;
+    }
+    button:hover {
+            background-color: #0056b3;
+        }
+        @media (max-width: 600px) {
+            .book-card {
+                width: 100%;
+            }
+        }
+    </style>
+  <body>
+ <h1>Library Books</h1>
+      <!-- Sorting buttons for title and author -->
+    <div>
+      <form method="GET" style="display: inline;">
+        <button type="submit" name="sort" value="title">Sort by Title</button>
+      </form>
+      <form method="GET" style="display: inline;">
+        <button type="submit" name="sort" value="author">Sort by Author</button>
+      </form>
+      <form method="GET" style="display: inline;">
+        <input type="text" name="search" placeholder="Search books for....." value="{{request.args.get('search', '')}}">
+        <button type="submit">Search</button>
+      </form>
+    </div>
+
+      <div class="book-container">
+        {% for book in books %}
+        <div class="book-card">
+            <img src="{{ book.cover_image }}" alt="Cover Image for {{ book.title }}" onerror="this.src='https://via.placeholder.com/150?text=No+Cover';">
+            <h3>{{ book.title }}</h3>
+            <p><strong>Author:</strong> {{ book.author }}</p>
+            <p><strong>Year:</strong> {{ book.publication_year }}</p>
+            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+            <form action = "{{url_for('delete_book', book_id=book.id)}}" method="POST">
+            <button type="submit" >Delete</button>
+            </form>
+        </div>
+        {% endfor %}
+
+    </div>
+
+  </body>
+</html>

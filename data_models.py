@@ -28,7 +28,7 @@ class Book(db.Model):
 
     # Define attributes with appropriate types and constraints
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    isbn = db.Column(db.String(13))
+    isbn = db.Column(db.String(13), unique=True,)
     title = db.Column(db.String(200))
     publication_year = db.Column(db.Integer)
     author_id = db.Column(db.Integer, db.ForeignKey('authors.id'))

@@ -1,78 +1,116 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .book-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-        .book-card {
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 10px;
-            width: 200px;
-            text-align: center;
-        }
-        .book-card img {
-            width: 100%;
-            height: auto;
-            border-radius: 4px;
-        }
-    button {
-       border-radius : 10px;
-       margin:6px;
-       padding : 4px 5px;
-       cursor:pointer;
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
     }
-    button:hover {
-            background-color: #0056b3;
+    a{
+        text-decoration: none;
         }
-        @media (max-width: 600px) {
-            .book-card {
-                width: 100%;
-            }
+    .book-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .book-card {
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        padding: 10px;
+        width: 200px;
+        text-align: center;
+    }
+    .book-card img {
+        width: 100%;
+        height: auto;
+        border-radius: 4px;
+    }
+button {
+   border-radius : 10px;
+   margin:6px;
+   padding : 4px 5px;
+   cursor:pointer;
+}
+button:hover {
+        background-color: #0056b3;
+    }
+    @media (max-width: 600px) {
+        .book-card {
+            width: 100%;
         }
-    </style>
-  <body>
- <h1>Library Books</h1>
-      <!-- Sorting buttons for title and author -->
-    <div>
-      <form method="GET" style="display: inline;">
+    }
+</style>
+<script>
+    window.onload = function() {
+       // Select all flash messages
+       var flashMessages = document.querySelectorAll('.flash-messages .alert');
+
+       flashMessages.forEach(function(message) {
+           // Set a timeout to hide each message after 2 seconds
+           setTimeout(function() {
+               message.style.display = 'none'; // Hide the flash message
+           }, 2000); // 2000 milliseconds = 2 seconds
+       });
+   };
+   function confirmDelete(bookTitle) {
+       return confirm(`Are you sure you want to delete the book "${bookTitle}"?`);
+   }
+</script>
+<body>
+<h1>Library Books</h1>
+<!-- Sorting buttons for title and author -->
+<div>
+    <form method="GET" style="display: inline;">
         <button type="submit" name="sort" value="title">Sort by Title</button>
-      </form>
-      <form method="GET" style="display: inline;">
+    </form>
+    <form method="GET" style="display: inline;">
         <button type="submit" name="sort" value="author">Sort by Author</button>
-      </form>
-      <form method="GET" style="display: inline;">
+    </form>
+    <form method="GET" style="display: inline;">
         <input type="text" name="search" placeholder="Search books for....." value="{{request.args.get('search', '')}}">
         <button type="submit">Search</button>
-      </form>
+    </form>
+    <a href="{{url_for('add_author')}}">
+        <button type="button">Add Author</button>
+    </a>
+    <a href="{{url_for('add_book')}}">
+        <button type="button">Add Book</button>
+    </a>
+</div>
+
+<div class="book-container">
+    {% for book in books %}
+    <div class="book-card">
+        <img src="{{ book.cover_image }}" alt="Cover Image for {{ book.title }}"
+             onerror="this.src='https://via.placeholder.com/150?text=No+Cover';">
+        <h3>{{ book.title }}</h3>
+        <p><strong>Author:</strong> {{ book.author }}</p>
+        <p><strong>Year:</strong> {{ book.publication_year }}</p>
+        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        <form action="{{url_for('delete_book', book_id=book.id)}}" method="POST"
+              onsubmit="return confirmDelete('{{ book.title }}');">
+            <button type="submit">Delete</button>
+        </form>
     </div>
+    {% endfor %}
 
-      <div class="book-container">
-        {% for book in books %}
-        <div class="book-card">
-            <img src="{{ book.cover_image }}" alt="Cover Image for {{ book.title }}" onerror="this.src='https://via.placeholder.com/150?text=No+Cover';">
-            <h3>{{ book.title }}</h3>
-            <p><strong>Author:</strong> {{ book.author }}</p>
-            <p><strong>Year:</strong> {{ book.publication_year }}</p>
-            <p><strong>ISBN:</strong> {{ book.isbn }}</p>
-            <form action = "{{url_for('delete_book', book_id=book.id)}}" method="POST">
-            <button type="submit" >Delete</button>
-            </form>
-        </div>
-        {% endfor %}
-
+</div>
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<div class="flash-messages">
+    {% for category, message in messages %}
+    <div class="alert alert-{{ category }}">
+        {{ message }}
     </div>
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
 
-  </body>
+</body>
 </html>

@@ -1,76 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <style>
-      body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    align-items: center;
-    height: 100vh;
-    background-color: #f4f4f4;
+</head>
+<style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
 }
+a{
+  text-decoration: none;
+  margin:2rem 9rem;
 
+      }
 .form-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    border: 3px solid #8B4513; /* brown border */
-    padding: 20px 10px;
-    background-color: white;
-    border-radius: 10px;
-    width: 45%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 3px solid #8B4513; /* brown border */
+  padding: 20px 10px;
+  background-color: white;
+  border-radius: 10px;
+  width: 45%;
 }
 
 .form-container label {
-    margin: 10px 0;
-    font-size: 1rem;
+  margin: 10px 0;
+  font-size: 1rem;
 }
 
 .form-container input,
 .form-container select,
 .form-container button {
-    display: block; /* Make each element take up a new line */
-    margin-bottom: 15px;
-    padding: 10px;
-    font-size: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+  display: block; /* Make each element take up a new line */
+  margin-bottom: 15px;
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }
 
 .form-container button {
-    background-color: #4CAF50;
-    color: white;
-    cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  cursor: pointer;
 }
 
 .form-container button:hover {
-    background-color: #45a049;
+  background-color: #45a049;
 }
 
-  </style>
+</style>
+<script>
+    window.onload = function() {
+     // Select all flash messages
+     var flashMessages = document.querySelectorAll('.flash-messages .alert');
 
-  <body>
-<div class = "form-container">
-  <h1>Add Author Detail</h1>
-  <form action="/add_author" method="POST">
-  <label for="name">Author Name:</label> 
-  <input type="text" id="name" name="name" required><br><br>
-  
-  <label for="birthdate">Birthdate:</label> 
-  <input type="date" id="birthdate" name="birthdate" required><br><br> 
-  <label for="date_of_death">Date of Death:</label> 
-  <input type="date" id="date_of_death" name="date_of_death"><br><br>
-  <button type="submit">Add Authhor</button>
-  </form>
+     flashMessages.forEach(function(message) {
+         // Set a timeout to hide each message after 2 seconds
+         setTimeout(function() {
+             message.style.display = 'none'; // Hide the flash message
+         }, 2000); // 2000 milliseconds = 2 seconds
+     });
+ };
+</script>
+<body>
+<div class="form-container">
+    <h1>Add Author Detail</h1>
+    <form action="/add_author" method="POST">
+        <label for="name">Author Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="birthdate">Birthdate:</label>
+        <input type="date" id="birthdate" name="birthdate" required><br><br>
+        <label for="date_of_death">Date of Death:</label>
+        <input type="date" id="date_of_death" name="date_of_death"><br><br>
+        <button type="submit">Add Author</button>
+    </form>
+    <a href="{{url_for('home_page')}}">
+        <button type="button">Return To Home</button>
+    </a>
 </div>
-  </body>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+<div class="alert alert-success">
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+</div>
+{% endif %}
+{% endwith %}
+
+</body>
 
 </html>

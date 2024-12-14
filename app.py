@@ -32,11 +32,12 @@ app.config['SQLALCHEMY_ENGINE_OPTIONS'] = {
 db.init_app(app)
 
 
+
 @app.route("/add_author", methods=['GET', 'POST'])
 def add_author():
     if request.method == 'POST':
        # Get the author data from the form
-       name = request.form.get('name')
+       name = request.form.get('name').strip()
        birth_date_str= request.form.get('birthdate')
        death_date_str = request.form.get('date_of_death')
        # Check if the name is provided
@@ -131,8 +132,8 @@ def delete_book(book_id):
 @app.route("/add_book", methods= ['GET', 'POST'])
 def add_book():
     if request.method == 'POST':
-        title = request.form.get('title')
-        isbn = request.form.get('isbn')
+        title = request.form.get('title').strip()
+        isbn = request.form.get('isbn').strip()
         publication_year = int(request.form.get('publication_year'))
         author_id = request.form.get('author_id')  # The selected author ID
         author = Author.query.get(author_id)
